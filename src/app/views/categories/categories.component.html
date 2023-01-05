@@ -10,6 +10,7 @@
     <ul class="nav">
       <li
         *ngFor="let category of categories"
+        (click)="showTasksByCategory(category)"
         class="nav-item"
       >
         <a class="nav-link">
