@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { DataHandlerService } from "../../service/data-handler.service";
-import { Task } from "../../model/Task";
+import { DataHandlerService } from "../../../service/data-handler.service";
+import { Task } from "../../../model/Task";
 
 @Component({
   selector: 'app-tasks',
@@ -14,5 +14,9 @@ export class TasksComponent implements OnInit {
   ngOnInit(): void {
     this.dataHandler.tasksSubject
       .subscribe(tasks => this.tasks = tasks);
+  }
+
+  public toggleTaskCompleted(task: Task): void {
+    task.completed = !task.completed;
   }
 }

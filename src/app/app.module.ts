@@ -3,8 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CategoriesComponent } from './views/categories/categories.component';
-import { TasksComponent } from './views/tasks/tasks.component';
+import { CategoriesComponent } from './components/categories/components/categories.component';
+import { TasksComponent } from './components/tasks/components/tasks.component';
 
 @NgModule({
   declarations: [
