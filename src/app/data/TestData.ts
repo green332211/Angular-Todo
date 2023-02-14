@@ -1,12 +1,11 @@
 // тестовые данные в виде массивов (заменяют таблицы БД)
-
-import { Category } from '../model/Category';
-import { Priority } from '../model/Priority';
-import { Task } from '../model/Task';
+import { CategoryInterface } from "../shared/interfaces/category.interface";
+import { PriorityInterface } from "../shared/interfaces/priority.interface";
+import { TaskInterface } from "../shared/interfaces/task.interface";
 
 export class TestData {
 
-  static categories: Category[] = [
+  static categories: CategoryInterface[] = [
     {id: 1, title: 'Работа'},
     {id: 2, title: 'Семья'},
     {id: 3, title: 'Учеба'},
@@ -21,7 +20,7 @@ export class TestData {
   ];
 
 
-  static priorities: Priority[] = [
+  static priorities: PriorityInterface[] = [
     {id: 1, title: 'Низкий', color: '#e5e5e5'},
     {id: 2, title: 'Средний', color: '#85D1B2'},
     {id: 3, title: 'Высокий', color: '#F1828D'},
@@ -30,7 +29,7 @@ export class TestData {
 
 
   // не забывать - индексация приоритетов и категорий начинается с нуля
-  static tasks: Task[] = [
+  static tasks: TaskInterface[] = [
     {
       id: 1,
       title: 'Залить бензин полный бак',

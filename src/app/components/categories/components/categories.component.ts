@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { DataHandlerService } from "../../../service/data-handler.service";
-import { Category } from "../../../model/Category";
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { DataHandlerService } from "../../../shared/service/data-handler.service";
+import { CategoryInterface } from "../../../shared/interfaces/category.interface";
 
 @Component({
   selector: 'app-categories',
@@ -8,16 +8,26 @@ import { Category } from "../../../model/Category";
   styleUrls: ['./categories.component.scss']
 })
 export class CategoriesComponent implements OnInit {
-  public categories: Category[];
+  @Input() public categories: CategoryInterface[];
+  @Output() selectCategory = new EventEmitter<CategoryInterface>();
 
-  constructor(private dataHandler: DataHandlerService) { }
+  public selectedCategory: CategoryInterface;
+
+  constructor(
+    private dataHandler: DataHandlerService
+  ) { }
 
   ngOnInit(): void {
-    this.dataHandler.categoriesSubject
-      .subscribe(categories => this.categories = categories);
+
   }
 
-  public showTasksByCategory(category: Category) {
-    this.dataHandler.fillTasksByCategory(category);
+  public showTasksByCategory(category: CategoryInterface): void {
+    if (this.selectedCategory === category) {
+      return;
+    }
+
+    this.selectedCategory = category;
+
+    this.selectCategory.emit(this.selectedCategory);
   }
 }
