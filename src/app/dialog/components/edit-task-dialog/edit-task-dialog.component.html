@@ -1,1 +1,131 @@
-<p>edit-task-dialog works!</p>
+<mat-dialog-content>
+  <p mat-dialog-title>{{ dialogTitle }}</p>
+
+  <mat-form-field>
+    <mat-label>Название (обязательно)</mat-label>
+    <input
+      #inputTitle
+      matInput
+      [(ngModel)]="tmpTitle"
+      (keydown.enter)="onConfirm()"
+    >
+
+    <button
+      *ngIf="tmpTitle.trim().length > 0"
+      matSuffix
+      mat-icon-button
+      aria-label="Clear"
+      (click)="tmpTitle = ''"
+      class="dialog-task-title"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Укажите категорию</mat-label>
+
+    <mat-select [(ngModel)]="tmpCategory">
+      <mat-option [value]="null">Без категории</mat-option>
+      <mat-option
+        *ngFor="let category of categories"
+        [value]="category"
+      >
+        {{ category.title }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Выбирете приоритет</mat-label>
+
+    <mat-select [(ngModel)]="tmpPriority">
+      <mat-option [value]="null">Без приоритета</mat-option>
+      <mat-option
+        *ngFor="let priority of priorities"
+        [value]="priority"
+      >
+        {{ priority.title }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field>
+    <input
+      matInput
+      #inputDate
+      readonly="true"
+      [matDatepicker]="picker"
+      [(ngModel)]="tmpDate"
+      (click)="picker.open()"
+      placeholder="Укажите срок выполнения"
+    >
+
+    <mat-datepicker-toggle
+      matSuffix
+      [for]="picker"
+    >
+    </mat-datepicker-toggle>
+
+    <mat-datepicker #picker></mat-datepicker>
+
+    <button
+      *ngIf="inputDate.value.trim().length > 0"
+      (click)="tmpDate = null"
+      mat-icon-button
+      matSuffix
+      aria-label="Clear"
+    >
+      <mat-icon>clear</mat-icon>
+    </button>
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <div class="col-md-5 col-12">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="onConfirm()"
+      [disabled]="inputTitle.value.trim().length == 0"
+    >
+      Сохранить
+    </button>
+
+    <button
+      mat-raised-button
+      (click)="onCancel()"
+    >
+      Отмена
+    </button>
+  </div>
+
+  <div class="col-md-7 col-12 text-right">
+    <button
+      *ngIf="!task.completed"
+      (click)="complete()"
+      mat-button
+      class="green"
+    >
+      Завершить задачу
+    </button>
+
+    <button
+      *ngIf="task.completed"
+      (click)="activate()"
+      mat-button
+      class="green"
+    >
+      Активировать
+    </button>
+
+    <button
+      mat-button
+      class="red"
+      (click)="delete()"
+    >
+      Удалить задачу
+    </button>
+  </div>
+
+</mat-dialog-actions>

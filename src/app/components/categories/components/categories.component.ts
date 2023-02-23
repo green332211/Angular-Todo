@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DataHandlerService } from "../../../shared/service/data-handler.service";
+import { DataHandlerService } from "../../../shared/services/data-handler.service";
 import { CategoryInterface } from "../../../shared/interfaces/category.interface";
 
 @Component({
@@ -8,14 +8,12 @@ import { CategoryInterface } from "../../../shared/interfaces/category.interface
   styleUrls: ['./categories.component.scss']
 })
 export class CategoriesComponent implements OnInit {
-  @Input() public categories: CategoryInterface[];
   @Output() selectCategory = new EventEmitter<CategoryInterface>();
 
-  public selectedCategory: CategoryInterface;
+  @Input() public categories: CategoryInterface[];
+  @Input() public selectedCategory: CategoryInterface;
 
-  constructor(
-    private dataHandler: DataHandlerService
-  ) { }
+  constructor() { }
 
   ngOnInit(): void {
 

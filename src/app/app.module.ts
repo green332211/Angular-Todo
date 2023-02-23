@@ -9,18 +9,34 @@ import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { _COALESCED_STYLE_SCHEDULER, _CoalescedStyleScheduler } from "@angular/cdk/table";
 import { HttpClientModule } from "@angular/common/http";
-import { _DisposeViewRepeaterStrategy, _VIEW_REPEATER_STRATEGY } from "@angular/cdk/collections";
 import { EditTaskDialogComponent } from './dialog/components/edit-task-dialog/edit-task-dialog.component';
-import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from "@angular/material/dialog";
+import { MatDialogModule } from "@angular/material/dialog";
+import { MatButtonModule } from "@angular/material/button";
+import { FormsModule } from "@angular/forms";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatIconModule } from "@angular/material/icon";
+import { MatNativeDateModule, MatOptionModule } from "@angular/material/core";
+import { MatSelectModule } from "@angular/material/select";
+import { ConfirmDialogComponent } from './dialog/components/confirm-dialog/confirm-dialog.component';
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { TaskDatePipe } from './shared/pipes/task-date.pipe';
+
+import { registerLocaleData } from '@angular/common';
+import localeRu from '@angular/common/locales/ru';
+import { MatCheckboxModule } from "@angular/material/checkbox";
+
+registerLocaleData(localeRu);
 
 @NgModule({
   declarations: [
     AppComponent,
     CategoriesComponent,
     TasksComponent,
-    EditTaskDialogComponent
+    EditTaskDialogComponent,
+    ConfirmDialogComponent,
+    TaskDatePipe
   ],
   imports: [
     HttpClientModule,
@@ -31,12 +47,19 @@ import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from "@angular/material/d
     MatPaginatorModule,
     BrowserAnimationsModule,
     MatDialogModule,
+    MatButtonModule,
+    FormsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatIconModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCheckboxModule,
   ],
-  providers: [
-    {provide: _VIEW_REPEATER_STRATEGY, useClass: _DisposeViewRepeaterStrategy},
-    {provide: _COALESCED_STYLE_SCHEDULER, useClass: _CoalescedStyleScheduler},
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}}
-  ],
+  providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

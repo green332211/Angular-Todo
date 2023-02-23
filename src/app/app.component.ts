@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TaskInterface } from "./shared/interfaces/task.interface";
-import { DataHandlerService } from "./shared/service/data-handler.service";
+import { DataHandlerService } from "./shared/services/data-handler.service";
 import { CategoryInterface } from "./shared/interfaces/category.interface";
 
 @Component({
@@ -38,6 +38,32 @@ export class AppComponent implements OnInit {
   }
 
   public onUpdateTask(task: TaskInterface): void {
-    console.log(task);
+    this.dataHandler.updateTask(task)
+      .subscribe(() => {
+        this.dataHandler.searchTasks(
+          this.selectedCategory,
+          null,
+          null,
+          null
+        )
+          .subscribe((tasks) => {
+            this.tasks = tasks;
+          });
+      });
+  }
+
+  public onDeleteTask(task: TaskInterface) {
+    this.dataHandler.deleteTask(task.id)
+      .subscribe(() => {
+        this.dataHandler.searchTasks(
+          this.selectedCategory,
+          null,
+          null,
+          null
+        )
+          .subscribe((tasks) => {
+            this.tasks = tasks;
+          });
+      });
   }
 }
