@@ -4,6 +4,8 @@
     [categories]="categories"
     [selectedCategory]="selectedCategory"
     (selectCategory)="onSelectCategory($event)"
+    (deleteCategory)="onDeleteCategory($event)"
+    (updateCategory)="onUpdateCategory($event)"
   ></app-categories>
 
   <div class="main-panel">
