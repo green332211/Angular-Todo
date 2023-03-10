@@ -10,6 +10,9 @@ import { MatDialog } from "@angular/material/dialog";
 import { EditTaskDialogComponent } from "../../../dialog/components/edit-task-dialog/edit-task-dialog.component";
 import { ConfirmDialogComponent } from "../../../dialog/components/confirm-dialog/confirm-dialog.component";
 import { CategoryInterface } from "../../../shared/interfaces/category.interface";
+import { PriorityInterface } from "../../../shared/interfaces/priority.interface";
+import { Task } from "../../../shared/model/task";
+import { OperType } from "../../../dialog/oper-type";
 
 @Component({
   selector: 'app-tasks',
@@ -19,11 +22,20 @@ import { CategoryInterface } from "../../../shared/interfaces/category.interface
 export class TasksComponent implements OnInit, AfterViewInit {
   @Output() public updateTask = new EventEmitter<TaskInterface>();
   @Output() public deleteTask = new EventEmitter<TaskInterface>();
+  @Output() public selectCategory = new EventEmitter<CategoryInterface>();
+  @Output() public filterByTitle = new EventEmitter<string>();
+  @Output() public filterByStatus = new EventEmitter<boolean>();
+  @Output() public filterByPriority = new EventEmitter<PriorityInterface>();
+  @Output() public addTask = new EventEmitter<Task>();
+
   @Input('tasks') public set setTasks(tasks: TaskInterface[]) {
     this.tasks = tasks;
     this.fillTable();
   }
-  @Output() public selectCategory = new EventEmitter<CategoryInterface>();
+  @Input('priorities') public set setPriorities(priorities: PriorityInterface[]) {
+    this.priorities = priorities;
+  }
+  @Input() public selectedCategory: CategoryInterface;
 
   // Ссылки на компоненты таблицы
   @ViewChild(MatPaginator) private paginator: MatPaginator;
@@ -32,6 +44,10 @@ export class TasksComponent implements OnInit, AfterViewInit {
   public displayedColumns: string[] = ['color', 'id', 'title', 'date', 'priority', 'category', 'operations', 'select'];
   public dataSource: MatTableDataSource<TaskInterface>; // контейнер - источник данных для таблицы
   public tasks: TaskInterface[];
+  public priorities: PriorityInterface[];
+  public searchTaskText: string;
+  public selectedStatusFilter: boolean = null;
+  public selectedPriorityFilter: PriorityInterface = null;
 
 
   constructor(
@@ -43,7 +59,7 @@ export class TasksComponent implements OnInit, AfterViewInit {
   public ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.tasks);
 
-    this.fillTable();
+    this.onSelectCategory(null);
   }
 
   public ngAfterViewInit(): void {
@@ -87,7 +103,10 @@ export class TasksComponent implements OnInit, AfterViewInit {
   }
 
   public openEditTaskDialog(task: TaskInterface): void {
-    const dialogRef = this.dialog.open(EditTaskDialogComponent, {data: [task, 'Редактирование задачи'], autoFocus: false});
+    const dialogRef = this.dialog.open(EditTaskDialogComponent, {
+      data: [task, 'Редактирование задачи', OperType.EDIT],
+      autoFocus: false,
+    });
 
     dialogRef.afterClosed()
       .subscribe((result) => {
@@ -134,7 +153,40 @@ export class TasksComponent implements OnInit, AfterViewInit {
     this.updateTask.emit(task);
   }
 
-  public onSelectCategory(category: CategoryInterface) {
+  public onSelectCategory(category: CategoryInterface): void {
     this.selectCategory.emit(category);
+  }
+
+  public onFilterByTitle(): void {
+    this.filterByTitle.emit(this.searchTaskText);
+  }
+
+  public onFilterByStatus(value: boolean): void {
+    if (value !== this.selectedStatusFilter) {
+      this.selectedStatusFilter = value;
+      this.filterByStatus.emit(this.selectedStatusFilter);
+    }
+  }
+
+  public onFilterByPriority(value: PriorityInterface): void {
+    if (value !== this.selectedPriorityFilter) {
+      this.selectedPriorityFilter = value;
+      this.filterByPriority.emit(this.selectedPriorityFilter);
+    }
+  }
+
+  public openAddTaskDialog(): void {
+    const task = new Task(null, '', false, null, this.selectedCategory);
+
+    const dialogRef = this.dialog.open(EditTaskDialogComponent, {
+      data: [task, 'Добавление задачи', OperType.ADD],
+    });
+
+    dialogRef.afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.addTask.emit(task);
+        }
+      })
   }
 }

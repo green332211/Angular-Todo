@@ -5,6 +5,7 @@ import {
   EditCategoryDialogComponent
 } from "../../../dialog/components/edit-category-dialog/edit-category-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
+import { OperType } from "../../../dialog/oper-type";
 
 @Component({
   selector: 'app-categories',
@@ -12,15 +13,18 @@ import { MatDialog } from "@angular/material/dialog";
   styleUrls: ['./categories.component.scss']
 })
 export class CategoriesComponent implements OnInit {
-  @Output() selectCategory = new EventEmitter<CategoryInterface>();
-  @Output() deleteCategory = new EventEmitter<CategoryInterface>();
-  @Output() updateCategory = new EventEmitter<CategoryInterface>();
+  @Output() public selectCategory = new EventEmitter<CategoryInterface>();
+  @Output() public deleteCategory = new EventEmitter<CategoryInterface>();
+  @Output() public updateCategory = new EventEmitter<CategoryInterface>();
+  @Output() public addCategory = new EventEmitter<string>();
+  @Output() public searchCategory = new EventEmitter<string>();
+
 
   @Input() public categories: CategoryInterface[];
   @Input() public selectedCategory: CategoryInterface;
 
   public indexMouseMove: number;
-  public showEditIconCategory: boolean;
+  public searchCategoryTitle: string;
 
   constructor(
     private readonly dataHandler: DataHandlerService,
@@ -47,7 +51,7 @@ export class CategoriesComponent implements OnInit {
 
   public openEditDialog(category: CategoryInterface): void {
     const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
-      data: [category.title, 'Редактирование категории'],
+      data: [category.title, 'Редактирование категории', OperType.EDIT],
       width: '400px',
     });
 
@@ -64,5 +68,27 @@ export class CategoriesComponent implements OnInit {
           return
         }
       });
+  }
+
+  public openAddDialog(): void {
+    const dialogRef = this.dialog.open(EditCategoryDialogComponent, {
+      data: ['', 'Добавление категории', OperType.ADD, ],
+      width: '400px'
+    });
+
+    dialogRef.afterClosed()
+      .subscribe((result) => {
+        if (result) {
+          this.addCategory.emit(result as string);
+        }
+      })
+  }
+
+  public search(): void {
+    if (this.searchCategoryTitle == null) {
+      return;
+    }
+
+    this.searchCategory.emit(this.searchCategoryTitle);
   }
 }

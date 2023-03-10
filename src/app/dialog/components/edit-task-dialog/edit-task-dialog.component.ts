@@ -5,6 +5,7 @@ import { TaskInterface } from "../../../shared/interfaces/task.interface";
 import { CategoryInterface } from "../../../shared/interfaces/category.interface";
 import { PriorityInterface } from "../../../shared/interfaces/priority.interface";
 import { ConfirmDialogComponent } from "../confirm-dialog/confirm-dialog.component";
+import { OperType } from "../../oper-type";
 
 @Component({
   selector: 'app-edit-task-dialog',
@@ -20,11 +21,12 @@ export class EditTaskDialogComponent implements OnInit {
   public tmpCategory: CategoryInterface;
   public tmpPriority: PriorityInterface;
   public tmpDate: Date;
+  private operType: OperType;
 
 
   constructor(
     private dialogRef: MatDialogRef<EditTaskDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) private data: [TaskInterface, string],
+    @Inject(MAT_DIALOG_DATA) private data: [TaskInterface, string, OperType],
     private dataHandler: DataHandlerService,
     private dialog: MatDialog
   ) { }
@@ -33,6 +35,8 @@ export class EditTaskDialogComponent implements OnInit {
   ngOnInit(): void {
     this.task = this.data[0];
     this.dialogTitle = this.data[1];
+    this.operType = this.data[2];
+
     this.tmpTitle = this.task.title;
     this.tmpCategory = this.task.category;
     this.tmpPriority = this.task.priority;
@@ -93,5 +97,13 @@ export class EditTaskDialogComponent implements OnInit {
 
   public complete() {
     this.dialogRef.close('activate');
+  }
+
+  public canDelete(): boolean {
+    return this.operType === OperType.EDIT;
+  }
+
+  public canActivateDeactivate(): boolean {
+    return this.operType === OperType.EDIT;
   }
 }

@@ -6,6 +6,7 @@ import { TaskDAOArray } from "../../data/dao/impl/taskDAOArray";
 import { CategoryDAOArray } from "../../data/dao/impl/categoryDAOArray";
 import { PriorityInterface } from "../interfaces/priority.interface";
 import { PriorityDAOArray } from "../../data/dao/impl/priorityDAOArray";
+import { Category } from "../model/category";
 
 @Injectable({
   providedIn: 'root'
@@ -53,5 +54,17 @@ export class DataHandlerService {
 
   public deleteCategory(id: number): Observable<CategoryInterface> {
     return this.categoryDaoArray.delete(id);
+  }
+
+  public addTask(task: TaskInterface): Observable<TaskInterface> {
+    return this.taskDaoArray.add(task);
+  }
+
+  public addCategory(title: string): Observable<CategoryInterface> {
+    return this.categoryDaoArray.add(new Category(null, title));
+  }
+
+  public searchCategories(title: string): Observable<CategoryInterface[]> {
+    return this.categoryDaoArray.search(title);
   }
 }

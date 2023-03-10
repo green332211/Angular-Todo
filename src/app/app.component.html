@@ -3,9 +3,12 @@
   <app-categories
     [categories]="categories"
     [selectedCategory]="selectedCategory"
+
     (selectCategory)="onSelectCategory($event)"
     (deleteCategory)="onDeleteCategory($event)"
     (updateCategory)="onUpdateCategory($event)"
+    (addCategory)="onAddCategory($event)"
+    (searchCategory)="onSearchCategory($event)"
   ></app-categories>
 
   <div class="main-panel">
@@ -86,9 +89,17 @@
 
             <app-tasks
               [tasks]="tasks"
+              [priorities]="priorities"
+
               (deleteTask)="onDeleteTask($event)"
               (updateTask)="onUpdateTask($event)"
               (selectCategory)="onSelectCategory($event)"
+              (addTask)="onAddTask($event)"
+
+              [selectedCategory]="selectedCategory"
+              (filterByStatus)="onFilterTasksByStatus($event)"
+              (filterByTitle)="onSearchTasks($event)"
+              (filterByPriority)="onFilterTasksByPriority($event)"
             ></app-tasks>
 
           </div>
@@ -122,7 +133,7 @@
           </ul>
         </nav>
         <div class="copyright float-right">
-          &copy; {{ date | date: 'short' }} made with <i class="material-icons">favorite</i> by
+          &copy; {{ date | date: 'mediumDate' }} made with <i class="material-icons">favorite</i> by
           <a href="#" target="_blank">LynxTeam</a>
         </div>
       </div>

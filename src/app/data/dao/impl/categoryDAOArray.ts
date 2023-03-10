@@ -4,8 +4,18 @@ import { Observable, of } from "rxjs";
 import { TestData } from "../../TestData";
 
 export class CategoryDAOArray implements CategoryDAO {
-  public add(T): Observable<CategoryInterface> {
-    return undefined;
+  public add(category: CategoryInterface): Observable<CategoryInterface> {
+    if (category.id === null || category.id === 0) {
+      category.id = this.getLastIdCategory();
+    }
+
+    TestData.categories.push(category);
+
+    return of(category);
+  }
+
+  private getLastIdCategory(): number {
+    return Math.max.apply(Math, TestData.categories.map((category) => category.id)) + 1;
   }
 
   public delete(id: number): Observable<CategoryInterface> {
@@ -30,7 +40,9 @@ export class CategoryDAOArray implements CategoryDAO {
   }
 
   public search(title: string): Observable<CategoryInterface[]> {
-    return undefined;
+    return of(TestData.categories.filter(
+      cat => cat.title.toUpperCase().includes(title.toUpperCase()))
+      .sort((c1, c2) => c1.title.localeCompare(c2.title)));
   }
 
   public update(category: CategoryInterface): Observable<CategoryInterface> {

@@ -6,8 +6,18 @@ import { Observable, of } from "rxjs";
 import { TestData } from "../../TestData";
 
 export class TaskDAOArray implements TaskDAO {
-  public add(T): Observable<TaskInterface> {
-    return undefined;
+  public add(task: TaskInterface): Observable<TaskInterface> {
+    if (task.id === null || task.id === 0) {
+      task.id = this.getLastIdTask();
+    }
+
+    TestData.tasks.push(task);
+
+    return of(task);
+  }
+
+  private getLastIdTask(): number {
+    return Math.max.apply(Math, TestData.tasks.map((task) => task.id)) + 1;
   }
 
   public delete(id: number): Observable<TaskInterface> {
@@ -55,6 +65,18 @@ export class TaskDAOArray implements TaskDAO {
 
     if (category != null) {
       allTasks = allTasks.filter((task) => task.category === category);
+    }
+
+    if (searchText != null) {
+      allTasks = allTasks.filter((task) => task.title.toUpperCase().includes(searchText.toUpperCase()));
+    }
+
+    if (status != null) {
+      allTasks = allTasks.filter((task) => task.completed === status);
+    }
+
+    if (priority != null) {
+      allTasks = allTasks.filter((task) => task.priority === priority);
     }
 
     return allTasks;

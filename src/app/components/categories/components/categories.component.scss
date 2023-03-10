@@ -20,3 +20,49 @@
 .edit-category-icon {
   color: #DADADA;
 }
+
+.logo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.add-icon {
+  cursor: pointer;
+  font-size: 23px;
+  vertical-align: middle;
+}
+
+span .add-icon-area {
+  width: 15%;
+  text-align: right;
+}
+
+#categories {
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.nav-title {
+  width: 85%;
+  font-size: 20px;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.search-category-area {
+  padding-left: 20px;
+  padding-right: 20px;
+  background-color: #f2f2f2;
+  border-radius: 6px
+}
+
+.search-category-button {
+  margin-left: 10px;
+  font-size: 25px
+}
+
+.not-found {
+  padding-top: 15px;
+  font-size: 15px !important;
+}

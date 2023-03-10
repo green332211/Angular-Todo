@@ -102,7 +102,7 @@
 
   <div class="col-md-7 col-12 text-right">
     <button
-      *ngIf="!task.completed"
+      *ngIf="!task.completed && canActivateDeactivate()"
       (click)="complete()"
       mat-button
       class="green"
@@ -111,7 +111,7 @@
     </button>
 
     <button
-      *ngIf="task.completed"
+      *ngIf="task.completed && canActivateDeactivate()"
       (click)="activate()"
       mat-button
       class="green"
@@ -120,9 +120,10 @@
     </button>
 
     <button
+      *ngIf="canDelete()"
+      (click)="delete()"
       mat-button
       class="red"
-      (click)="delete()"
     >
       Удалить задачу
     </button>
