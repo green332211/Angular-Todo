@@ -4,6 +4,10 @@
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import "~bootstrap-css-only/css/bootstrap.min.css";
 
+button:focus {
+  outline: none !important;
+}
+
 .not-found {
   margin-top: 30px;
   font-size: 20px;
@@ -37,3 +41,8 @@
 .red {
   color: red !important;
 }
+
+.main-panel > .content {
+  margin-top: 30px !important;
+}
+

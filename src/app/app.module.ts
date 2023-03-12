@@ -3,8 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CategoriesComponent } from './components/categories/components/categories.component';
-import { TasksComponent } from './components/tasks/components/tasks.component';
+import { CategoriesComponent } from './components/categories/categories.component';
+import { TasksComponent } from './components/tasks/tasks.component';
 import { MatTableModule } from "@angular/material/table";
 import { MatSortModule } from "@angular/material/sort";
 import { MatPaginatorModule } from "@angular/material/paginator";
@@ -27,6 +27,11 @@ import { registerLocaleData } from '@angular/common';
 import localeRu from '@angular/common/locales/ru';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { EditCategoryDialogComponent } from './dialog/components/edit-category-dialog/edit-category-dialog.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { AboutDialogComponent } from './dialog/components/about-dialog/about-dialog.component';
+import { HeaderComponent } from './components/header/header.component';
+import { StatisticsComponent } from './components/statistics/components/statistics/statistics.component';
+import { StatisticsCardComponent } from './components/statistics/components/statistics-card/statistics-card.component';
 
 registerLocaleData(localeRu);
 
@@ -38,7 +43,12 @@ registerLocaleData(localeRu);
     ConfirmDialogComponent,
     TaskDatePipe,
     EditTaskDialogComponent,
-    EditCategoryDialogComponent
+    EditCategoryDialogComponent,
+    FooterComponent,
+    AboutDialogComponent,
+    HeaderComponent,
+    StatisticsComponent,
+    StatisticsCardComponent
   ],
   imports: [
     HttpClientModule,

@@ -1,18 +1,18 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatTableDataSource } from "@angular/material/table";
 
-import { DataHandlerService } from "../../../shared/services/data-handler.service";
-import { TaskInterface } from "../../../shared/interfaces/task.interface";
+import { DataHandlerService } from "../../shared/services/data-handler.service";
+import { TaskInterface } from "../../shared/interfaces/task.interface";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSort, Sort } from "@angular/material/sort";
 import { LiveAnnouncer } from "@angular/cdk/a11y";
 import { MatDialog } from "@angular/material/dialog";
-import { EditTaskDialogComponent } from "../../../dialog/components/edit-task-dialog/edit-task-dialog.component";
-import { ConfirmDialogComponent } from "../../../dialog/components/confirm-dialog/confirm-dialog.component";
-import { CategoryInterface } from "../../../shared/interfaces/category.interface";
-import { PriorityInterface } from "../../../shared/interfaces/priority.interface";
-import { Task } from "../../../shared/model/task";
-import { OperType } from "../../../dialog/oper-type";
+import { EditTaskDialogComponent } from "../../dialog/components/edit-task-dialog/edit-task-dialog.component";
+import { ConfirmDialogComponent } from "../../dialog/components/confirm-dialog/confirm-dialog.component";
+import { CategoryInterface } from "../../shared/interfaces/category.interface";
+import { PriorityInterface } from "../../shared/interfaces/priority.interface";
+import { Task } from "../../shared/model/task";
+import { OperType } from "../../dialog/oper-type";
 
 @Component({
   selector: 'app-tasks',

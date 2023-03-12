@@ -4,6 +4,7 @@ import { DataHandlerService } from "./shared/services/data-handler.service";
 import { CategoryInterface } from "./shared/interfaces/category.interface";
 import { HttpClient } from "@angular/common/http";
 import { PriorityInterface } from "./shared/interfaces/priority.interface";
+import { zip } from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -12,7 +13,6 @@ import { PriorityInterface } from "./shared/interfaces/priority.interface";
 })
 export class AppComponent implements OnInit {
   public title = 'Todo';
-  public date: Date = new Date();
   public tasks: TaskInterface[];
   public categories: CategoryInterface[];
   public priorities: PriorityInterface[];
@@ -22,6 +22,13 @@ export class AppComponent implements OnInit {
   public searchCategoryText: string = '';
   public statusFilter: boolean;
   public priorityFilter: PriorityInterface;
+
+  public totalTasksCountInCategory: number;
+  public completedCountInCategory: number;
+  public uncompletedCountInCategory: number;
+  public uncompletedTotalTasksCount: number;
+
+  public showStat = false;
 
   constructor(
     private dataHandler: DataHandlerService,
@@ -48,37 +55,21 @@ export class AppComponent implements OnInit {
   public onUpdateTask(task: TaskInterface): void {
     this.dataHandler.updateTask(task)
       .subscribe(() => {
-        this.dataHandler.searchTasks(
-          this.selectedCategory,
-          null,
-          null,
-          null
-        )
-          .subscribe((tasks) => {
-            this.tasks = tasks;
-          });
+        this.updateTasksAndStat();
       });
   }
 
   public onDeleteTask(task: TaskInterface): void {
     this.dataHandler.deleteTask(task.id)
       .subscribe(() => {
-        this.dataHandler.searchTasks(
-          this.selectedCategory,
-          null,
-          null,
-          null
-        )
-          .subscribe((tasks) => {
-            this.tasks = tasks;
-          });
+        this.updateTasksAndStat();
       });
   }
 
   public onSelectCategory(category: CategoryInterface): void {
     this.selectedCategory = category;
 
-    this.updateTasks();
+    this.updateTasksAndStat();
   }
 
   public onDeleteCategory(category: CategoryInterface): void {
@@ -126,7 +117,7 @@ export class AppComponent implements OnInit {
   public onAddTask(task: TaskInterface) {
     this.dataHandler.addTask(task)
       .subscribe(() => {
-        this.updateTasks();
+        this.updateTasksAndStat();
       })
   }
 
@@ -151,5 +142,29 @@ export class AppComponent implements OnInit {
       .subscribe((categories) => {
         this.categories = categories;
       });
+  }
+
+  private updateTasksAndStat() {
+    this.updateTasks();
+    this.updateStat();
+  }
+
+  private updateStat() {
+    zip(
+      this.dataHandler.getTotalCountInCategory(this.selectedCategory),
+      this.dataHandler.getCompetedCountInCategory(this.selectedCategory),
+      this.dataHandler.getUncompletedCountInCategory(this.selectedCategory),
+      this.dataHandler.getUncompletedTotalCount()
+    )
+      .subscribe((array) => {
+        this.totalTasksCountInCategory = array[0];
+        this.completedCountInCategory = array[1];
+        this.uncompletedCountInCategory = array[2];
+        this.uncompletedTotalTasksCount = array[3];
+      })
+  }
+
+  public toggleStat(showStat: boolean): void {
+    this.showStat = showStat;
   }
 }

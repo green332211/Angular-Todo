@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { DataHandlerService } from "../../../shared/services/data-handler.service";
-import { CategoryInterface } from "../../../shared/interfaces/category.interface";
+import { DataHandlerService } from "../../shared/services/data-handler.service";
+import { CategoryInterface } from "../../shared/interfaces/category.interface";
 import {
   EditCategoryDialogComponent
-} from "../../../dialog/components/edit-category-dialog/edit-category-dialog.component";
+} from "../../dialog/components/edit-category-dialog/edit-category-dialog.component";
 import { MatDialog } from "@angular/material/dialog";
-import { OperType } from "../../../dialog/oper-type";
+import { OperType } from "../../dialog/oper-type";
 
 @Component({
   selector: 'app-categories',

@@ -1,0 +1,24 @@
+<footer class="footer">
+  <div class="container-fluid">
+    <nav class="float-left">
+      <ul>
+        <li>
+          <a [href]="telegram" target="_blank">
+            Связаться в телеграмме
+          </a>
+        </li>
+
+        <li>
+          <a (click)="openAboutDialog()" class="link">
+            О приложении
+          </a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="copyright float-right">
+      &copy; {{ date | date: 'yyyy' }} made with <i class="material-icons">favorite</i> by
+      <a class="git-link" href="https://github.com/green332211" target="_blank">green321</a>
+    </div>
+  </div>
+</footer>

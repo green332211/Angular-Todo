@@ -36,19 +36,19 @@ export class TaskDAOArray implements TaskDAO {
   }
 
   public getCompletedCountInCategory(category: CategoryInterface): Observable<number> {
-    return undefined;
+    return of(this.searchTasks(category, null, true, null).length);
   }
 
   public getTotalCount(): Observable<number> {
-    return undefined;
+    return of(TestData.tasks.length);
   }
 
   public getTotalCountInCategory(category: CategoryInterface): Observable<number> {
-    return undefined;
+    return of(this.searchTasks(category, null, null, null).length);
   }
 
   public getUncompletedCountInCategory(category: CategoryInterface): Observable<number> {
-    return undefined;
+    return of(this.searchTasks(category, null, false, null).length);
   }
 
   public search(category: CategoryInterface, searchText: string, status: boolean, priority: PriorityInterface): Observable<TaskInterface[]> {
